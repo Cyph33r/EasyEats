@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:meal_app/screens/categories_screen.dart';
+import 'package:meal_app/screens/meal_screen.dart';
+import 'package:meal_app/screens/tabs_screen.dart';
 
-import '../util/constants.dart' show Screens;
-import 'categories_screen.dart';
-import 'category_meals_screen.dart';
+import 'screens/categories_screen.dart';
+import 'screens/category_meals_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,20 +30,21 @@ class MyApp extends StatelessWidget {
             primary: Colors.pink,
             secondary: Colors.amber,
             background: Colors.blueGrey),
-        canvasColor: const Color.fromARGB(225, 254, 229, 255),
+        canvasColor: const Color.fromRGBO(255, 254, 229, 1),
         textTheme: ThemeData.light().textTheme.copyWith(
-            bodyText1: const TextStyle(color: Color.fromARGB(225, 22, 22, 29)),
-            bodyText2: const TextStyle(color: Color.fromARGB(225, 22, 22, 29)),
-            subtitle1: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Raleway')),
+              bodyText1:
+                  const TextStyle(color: Color.fromARGB(225, 22, 22, 29)),
+              bodyText2:
+                  const TextStyle(color: Color.fromARGB(225, 22, 22, 29)),
+              subtitle1: const TextStyle(fontSize: 20.0),
+            ),
         fontFamily: "RobotoCondensed",
       ),
-      home: const MyHomePage(),
       routes: {
+        '/' :(context)=>const TabScreen(),
         CategoriesScreen.routeName: (context) => const CategoriesScreen(),
-        CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen()
+        CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
+        MealDetailScreen.routeName: (context) => const MealDetailScreen(),
       },
     );
   }
