@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/screens/categories_screen.dart';
+import 'package:meal_app/screens/favorites_screen.dart';
+import 'package:meal_app/widgets/main_drawer.dart';
 
 class TabScreen extends StatefulWidget {
   static const routeName = '/route_screen';
@@ -10,24 +13,43 @@ class TabScreen extends StatefulWidget {
 }
 
 class _TabScreenState extends State<TabScreen> {
-  var currentState = 0;
+  var _currentPage = 0;
+  final _pages = [
+    {'page': const CategoriesScreen(), 'title': 'DeliMeals'},
+    {'title': 'Favorites', 'page': const FavoritesScreen()}
+  ];
+
+  void _selectPage(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            currentState = index;
-          });
-        },
-        currentIndex: currentState,
-        items: const [
-          BottomNavigationBarItem(label: 'Categories', icon: Icon(Icons.menu)),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'Favorites')
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text(_pages[_currentPage]['title'].toString()),
+        ),
+        drawer:  const MainDrawer(),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          type: BottomNavigationBarType.shifting,
+          onTap: _selectPage,
+          currentIndex: _currentPage,
+          items: [
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                label: 'Categories',
+                icon: const Icon(Icons.category)),
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                label: 'Favorites',
+                icon: const Icon(Icons.favorite))
+          ],
+        ),
+        body: _pages[_currentPage]['page'] as Widget);
   }
 }

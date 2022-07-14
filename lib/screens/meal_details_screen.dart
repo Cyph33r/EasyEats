@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/util/utils.dart';
@@ -39,6 +38,7 @@ class MealDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(meal.title),
       ),
+      floatingActionButton: FloatingActionButton(child: const Icon(Icons.delete),onPressed: (){Navigator.of(context).pop(mealId);}),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,8 +46,8 @@ class MealDetailScreen extends StatelessWidget {
               children: [
                 Hero(
                   tag: meal.id,
-                  child: Image.network(
-                    meal.imageUrl,
+                  child: Image.asset(
+                    'assets/images/replacement.png',
                     height: 250,
                     width: double.infinity,
                     fit: BoxFit.cover,

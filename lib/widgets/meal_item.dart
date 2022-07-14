@@ -1,25 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:meal_app/screens/meal_screen.dart';
+import 'package:meal_app/screens/meal_details_screen.dart';
 
 import '../models/meal.dart';
 import '../util/utils.dart' show StringUtil;
 
 class MealItem extends StatelessWidget {
   final Meal meal;
+  final void Function(int) removeMeal;
 
-  const MealItem(this.meal, {Key? key}) : super(key: key);
+  const MealItem(this.meal, this.removeMeal,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     void selectMeal() {
       Navigator.pushNamed(context, MealDetailScreen.routeName,
-          arguments: {'mealId': meal.id});
+          arguments: {'mealId': meal.id}).then((result) =>removeMeal(result! as int));
     }
 
     return InkWell(
       onTap: selectMeal,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        // shape: const CircleBorder(side: BorderSide.none),
         elevation: 4,
         margin: const EdgeInsets.all(10),
         child: Column(
@@ -32,8 +36,8 @@ class MealItem extends StatelessWidget {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    child: Image.network(
-                      meal.imageUrl,
+                    child: Image.asset(
+                      'assets/images/replacement.png',
                       // loadingBuilder: ,
                       height: 250,
                       width: double.infinity,

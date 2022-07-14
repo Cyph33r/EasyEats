@@ -4,6 +4,7 @@ import '../data/dummy_data.dart' show DUMMY_CATEGORIES;
 
 class CategoriesScreen extends StatelessWidget {
   static const routeName = '/categories_screen';
+
   const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
@@ -12,9 +13,13 @@ class CategoriesScreen extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GridView(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200, mainAxisSpacing: 16, crossAxisSpacing: 16,childAspectRatio: 3/2),
+            maxCrossAxisExtent: 200,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: 3 / 2),
         children: DUMMY_CATEGORIES
-            .map((category) => CategoryItem(category.id, category.title, category.color))
+            .map((category) =>
+                CategoryItem(category.id, category.title, category.color))
             .toList(),
       ),
     );
